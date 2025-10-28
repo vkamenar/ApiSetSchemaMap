@@ -23,11 +23,24 @@ the DLL where this symbol is really implemented, you can use the ApiSet Schema M
 
 ```python ApiSet_Schema_Map.py```
 
-The output will show you the redirection, for example:
+The output will show you the redirection, for example:  
 
 ```Virtual DLL api-ms-win-storage-exports-internal-l1-1-0 -> windows.storage.dll```
 
 ```windows.storage.dll``` is the implementation DLL in this case.  
+<br>
+
+## Running the tool
+
+The tool can receive a single command-line parameter. This parameter is the ApiSet Schema DLL. For example:  
+
+```python ApiSet_Schema_Map.py C:\Windows\system32\apisetschema.dll```
+
+**Note:** Be careful when specifying a DLL file in the Windows system directory. If your Windows is x64 and the Python interpreter is 32-bit,
+the system may redirect ```System32``` to ```SysWOW64``` and the DLL might not be there. It is recommended to copy the DLL to a different location to
+avoid this kind of issues.  
+
+If you don't specify the command-line parameter, the tool will try to locate the ```apisetschema.dll``` automatically.  
 <br>
 
 ## Sample output
