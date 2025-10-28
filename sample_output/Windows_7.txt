@@ -1,0 +1,38 @@
+Version: 2
+Number of Structures: 35
+
+Virtual DLL MS-Win-Core-Console-L1-1-0 -> kernel32.dll
+Virtual DLL MS-Win-Core-DateTime-L1-1-0 -> kernel32.dll
+Virtual DLL MS-Win-Core-Debug-L1-1-0 -> kernelbase.dll
+Virtual DLL MS-Win-Core-DelayLoad-L1-1-0 -> kernel32.dll
+Virtual DLL MS-Win-Core-ErrorHandling-L1-1-0 -> kernel32.dll -> kernelbase.dll
+Virtual DLL MS-Win-Core-Fibers-L1-1-0 -> kernelbase.dll
+Virtual DLL MS-Win-Core-File-L1-1-0 -> kernel32.dll -> kernelbase.dll
+Virtual DLL MS-Win-Core-Handle-L1-1-0 -> kernel32.dll -> kernelbase.dll
+Virtual DLL MS-Win-Core-Heap-L1-1-0 -> kernelbase.dll
+Virtual DLL MS-Win-Core-Interlocked-L1-1-0 -> kernelbase.dll
+Virtual DLL MS-Win-Core-IO-L1-1-0 -> kernel32.dll -> kernelbase.dll
+Virtual DLL MS-Win-Core-LibraryLoader-L1-1-0 -> kernelbase.dll
+Virtual DLL MS-Win-Core-Localization-L1-1-0 -> kernelbase.dll
+Virtual DLL MS-Win-Core-LocalRegistry-L1-1-0 -> kernel32.dll
+Virtual DLL MS-Win-Core-Memory-L1-1-0 -> kernelbase.dll
+Virtual DLL MS-Win-Core-Misc-L1-1-0 -> kernelbase.dll
+Virtual DLL MS-Win-Core-NamedPipe-L1-1-0 -> kernelbase.dll
+Virtual DLL MS-Win-Core-ProcessEnvironment-L1-1-0 -> kernelbase.dll
+Virtual DLL MS-Win-Core-ProcessThreads-L1-1-0 -> kernel32.dll -> kernelbase.dll
+Virtual DLL MS-Win-Core-Profile-L1-1-0 -> kernelbase.dll
+Virtual DLL MS-Win-Core-RtlSupport-L1-1-0 -> ntdll.dll
+Virtual DLL MS-Win-Core-String-L1-1-0 -> kernelbase.dll
+Virtual DLL MS-Win-Core-Synch-L1-1-0 -> kernel32.dll -> kernelbase.dll
+Virtual DLL MS-Win-Core-SysInfo-L1-1-0 -> kernelbase.dll
+Virtual DLL MS-Win-Core-ThreadPool-L1-1-0 -> kernelbase.dll
+Virtual DLL MS-Win-Core-UMS-L1-1-0 -> kernel32.dll
+Virtual DLL MS-Win-Core-Util-L1-1-0 -> kernel32.dll -> kernelbase.dll
+Virtual DLL MS-Win-Core-XState-L1-1-0 -> ntdll.dll
+Virtual DLL MS-Win-Security-Base-L1-1-0 -> kernelbase.dll
+Virtual DLL MS-Win-Security-LSALookup-L1-1-0 -> sechost.dll
+Virtual DLL MS-Win-Security-SDDL-L1-1-0 -> sechost.dll
+Virtual DLL MS-Win-Service-Core-L1-1-0 -> sechost.dll
+Virtual DLL MS-Win-Service-Management-L1-1-0 -> sechost.dll
+Virtual DLL MS-Win-Service-Management-L2-1-0 -> sechost.dll
+Virtual DLL MS-Win-Service-winsvc-L1-1-0 -> sechost.dll
