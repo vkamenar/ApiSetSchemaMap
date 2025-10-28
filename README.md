@@ -11,6 +11,7 @@ through Virtual DLL names (e.g., ```api-ms-win-core-console-ansi-l2-1-0.dll```).
 The ApiSet Schema Mapper is a simple Python script to view the corresponding implementation DLL for each Virtual DLL. The tool is compatible with x86, x64 and ARM64
 DLL files. The minimum Python version to run this tool is 2.7.  
 
+
 ## The purpose of the ApiSet Schema Mapper
 
 Let's suppose you are analyzing a PE32 binary in your favorite disassembler, like IDA Pro, and you see that it's calling a symbol from a Virtual DLL:
@@ -27,3 +28,9 @@ The output will show you the redirection, for example:
 ```Virtual DLL api-ms-win-storage-exports-internal-l1-1-0 -> windows.storage.dll```
 
 ```windows.storage.dll``` is the implementation DLL in this case.  
+
+
+## Sample output
+
+[Sample output files](sample_output) are provided for multiple Windows versions. These files should not be used as a stable reference because
+the exact mapping may depend on the SP level, among other variables.  
