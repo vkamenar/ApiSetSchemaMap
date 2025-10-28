@@ -146,7 +146,7 @@ DLLREDIRECTOR_FIELDS = [
 
 class FileReader:
    def __init__(self, filepath):
-      self.file = open(filepath, "rb")
+      self.file = open(filepath, 'rb')
 
    def __del__(self):
       if not self.file.closed:
@@ -166,7 +166,7 @@ class FileReader:
 class Descriptor:
    def __init__(self, buf, index):
       _s = STRINGDESCRIPTOR.from_buffer_copy(buf, 4 + ctypes.sizeof(APISETMAP) + (index * ctypes.sizeof(STRINGDESCRIPTOR)))
-      self.string = buf[_s.OffsetDllString : _s.OffsetDllString + _s.StringLength].decode("utf_16_le", errors='replace')
+      self.string = buf[_s.OffsetDllString : _s.OffsetDllString + _s.StringLength].decode('utf_16_le', errors='replace')
       if hasattr(_s, 'ValueCount'):
          redirs = _s.ValueCount
       else:
@@ -180,27 +180,29 @@ class Descriptor:
 class Redirection:
    def __init__(self, buf, offset, index):
       _r = REDIRECTION.from_buffer_copy(buf, offset + (index * ctypes.sizeof(REDIRECTION)))
-      self.RedirName = buf[_r.OffsetRedir2 : _r.OffsetRedir2 + _r.RedirLen2].decode("utf_16_le", errors='replace')
+      self.RedirName = buf[_r.OffsetRedir2 : _r.OffsetRedir2 + _r.RedirLen2].decode('utf_16_le', errors='replace')
 
 def main(dllpath):
    fr = FileReader(dllpath)
    head = fr.read_chunk(0, 0x400) # Read the first 0x400 bytes of the PE file
-   section_index = head.index(b".apiset") # Check if ".apiset" can be found
+   section_index = head.index(b'.apiset') # Check if ".apiset" can be found
    if section_index <= 0:
-      print("Error: Couldn't find the \".apiset\" section")
+      sys.stdout.write('Error: ".apiset" section not found\n')
       return
-   print("Found \".apiset\" section header at {:#x}".format(section_index))
 
    # Read the IMAGE_SECTION_HEADER of .apiset section
    ish = IMAGE_SECTION_HEADER()
    fr.readinto(section_index, ish)
-   print("SizeOfRawData: {:#x}, PointerToRawData: {:#x}".format(ish.SizeOfRawData, ish.PointerToRawData))
 
    # Read the section contents
    buf = fr.read_chunk(ish.PointerToRawData, ish.SizeOfRawData)
-   Ver = (buf[0] & 0xFF) | ((buf[1] & 0xFF) << 8) | ((buf[2] & 0xFF) << 16) | ((buf[3] & 0xFF) << 24)
+   _b0, _b1, _b2, _b3 = buf[0], buf[1], buf[2], buf[3]
+   if isinstance(_b0, int):
+     Ver = _b0 & 0xFF | (_b1 & 0xFF) << 8 | (_b2 & 0xFF) << 16 | (_b3 & 0xFF) << 24
+   else:
+     Ver = ord(_b0) & 0xFF | (ord(_b1) & 0xFF) << 8 | (ord(_b2) & 0xFF) << 16 | (ord(_b3) & 0xFF) << 24
    if Ver < 1 or Ver > 6 or Ver == 3 or Ver == 5:
-      print("Error: version {} not supported".format(Ver))
+      sys.stderr.write('Error: version {} not supported\n'.format(Ver))
       return
 
    global STRINGDESCRIPTOR, DLLREDIRECTOR, REDIRECTION, APISETMAP
@@ -210,19 +212,24 @@ def main(dllpath):
    APISETMAP        = type('APISETMAP',        (ctypes.LittleEndianStructure,), { '_fields_': APISETMAP_FIELDS[Ver - 1] })
 
    _a = APISETMAP.from_buffer_copy(buf, 4)
-   print("Version: {}\nNumber of Structures: {}\n".format(Ver, _a.NumStructs))
+   sys.stdout.write('Version: {}\nNumber of Structures: {}\n\n'.format(Ver, _a.NumStructs))
    Descriptors = list()
    for i in range(_a.NumStructs):
       Descriptors.append(Descriptor(buf, i))
 
    for descriptor in Descriptors:
-      print("Virtual DLL " + descriptor.string, end="")
+      sys.stdout.write('Virtual DLL ' + descriptor.string)
       for redir in descriptor.redirections:
-         print(" -> " + redir.RedirName, end="")
-      print()
+         sys.stdout.write(' -> ' + redir.RedirName)
+      sys.stdout.write('\n')
 
 if __name__ == '__main__':
-   if len(sys.argv) <= 2:
-      main(os.path.join(os.getenv("windir"), "system32", "apisetschema.dll") if len(sys.argv) == 1 else sys.argv[1])
+   if len(sys.argv) == 2:
+      main(sys.argv[1])
+   if len(sys.argv) == 1:
+      apidll = os.path.join(os.getenv('windir'), 'system32', 'apisetschema.dll')
+      if not os.path.isfile(apidll):
+         apidll = os.path.join(os.getenv('windir'), 'sysnative', 'apisetschema.dll')
+      main(apidll)
    else:
-      print("Usage: {} <apisetschema.dll>".format(sys.argv[0]))
+      sys.stdout.write('Usage: ' + sys.argv[0] + ' <apisetschema.dll>\n')
