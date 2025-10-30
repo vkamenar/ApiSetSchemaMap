@@ -1,4 +1,4 @@
-# ApiSet Schema Mapper
+# ApiSet Schema Map
 
 This tool was originally created by Sebastien Renaud for the APiSet Schema v2. It was updated by Vladimir Kameñar to support newer ApiSet Schema versions, up to v6.  
 
